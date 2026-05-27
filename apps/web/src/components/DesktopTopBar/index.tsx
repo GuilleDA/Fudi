@@ -17,7 +17,9 @@ export function DesktopTopBar({
   return (
     <header className={styles.root}>
       <div className={styles.inner}>
-        <Logo size="md" />
+        <div className={styles.logoSlot}>
+          <Logo size="md" />
+        </div>
 
         <button type="button" className={styles.addressButton}>
           <PinIcon className={styles.pin} aria-hidden />

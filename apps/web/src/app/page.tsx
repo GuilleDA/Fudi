@@ -23,23 +23,28 @@ export default function Home() {
         <DesktopSidebar />
 
         <main className={styles.main}>
-          <div className={styles.mobileOnly}>
-            <AddressBar
-              address={ADDRESS_FULL}
-              label="Home"
-              cartCount={CART_COUNT}
-            />
-            <div className={styles.searchWrap}>
-              <SearchBar />
+          <div className={styles.topSection}>
+            <div className={styles.mobileOnly}>
+              <AddressBar
+                address={ADDRESS_FULL}
+                label="Home"
+                cartCount={CART_COUNT}
+              />
+              <div className={styles.searchWrap}>
+                <SearchBar />
+              </div>
             </div>
+
+            <Categories />
           </div>
 
-          <Categories />
-          <OrderInProgress />
-          <AdsCarousel />
-          <WeekendCravings />
+          <div className={styles.contentSection}>
+            <OrderInProgress />
+            <AdsCarousel />
+            <WeekendCravings />
 
-          <div className={styles.safeBottom} />
+            <div className={styles.safeBottom} />
+          </div>
         </main>
       </div>
     </div>
