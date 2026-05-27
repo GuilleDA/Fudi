@@ -194,6 +194,52 @@ export function StarIcon(props: IconProps) {
   );
 }
 
+export function PlusIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" {...props}>
+      <path
+        d="M12 5v14M5 12h14"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+export function MinusIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" {...props}>
+      <path d="M5 12h14" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+export function TrashIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" {...props}>
+      <path
+        d="M4 7h16M9 7V4h6v3M6 7l1 13a2 2 0 002 2h6a2 2 0 002-2l1-13"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+export function ChevronLeftIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" {...props}>
+      <path
+        d="M15 6l-6 6 6 6"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 export function HelpIcon(props: IconProps) {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" {...props}>

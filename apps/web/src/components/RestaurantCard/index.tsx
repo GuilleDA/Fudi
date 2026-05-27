@@ -1,4 +1,6 @@
 import Image, { type StaticImageData } from "next/image";
+import Link from "next/link";
+import type { ReactNode } from "react";
 import { ClockIcon, ScooterIcon, StarIcon } from "../icons";
 import styles from "./styles.module.scss";
 
@@ -16,8 +18,33 @@ type RestaurantCardProps = {
   emoji?: string;
   rating?: number;
   discountBadge?: DiscountBadge;
+  href?: string;
   onClick?: () => void;
 };
+
+function CardShell({
+  href,
+  onClick,
+  children,
+}: {
+  href?: string;
+  onClick?: () => void;
+  children: ReactNode;
+}) {
+  if (href) {
+    return (
+      <Link href={href} className={styles.root}>
+        {children}
+      </Link>
+    );
+  }
+
+  return (
+    <button type="button" className={styles.root} onClick={onClick}>
+      {children}
+    </button>
+  );
+}
 
 export function RestaurantCard({
   name,
@@ -28,10 +55,11 @@ export function RestaurantCard({
   emoji,
   rating,
   discountBadge,
+  href,
   onClick,
 }: RestaurantCardProps) {
   return (
-    <button type="button" className={styles.root} onClick={onClick}>
+    <CardShell href={href} onClick={onClick}>
       <div className={styles.media}>
         {image ? (
           <Image
@@ -77,6 +105,6 @@ export function RestaurantCard({
           </span>
         </p>
       </div>
-    </button>
+    </CardShell>
   );
 }

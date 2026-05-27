@@ -1,3 +1,7 @@
+"use client";
+
+import { useAtomValue } from "jotai";
+import { cartItemCountAtom } from "../../atoms/cart";
 import { CartIcon, ChevronDown, PinIcon, SearchIcon } from "../icons";
 import { IconButton } from "../IconButton";
 import { Logo } from "../Logo";
@@ -11,9 +15,11 @@ type DesktopTopBarProps = {
 
 export function DesktopTopBar({
   address,
-  cartCount = 0,
+  cartCount,
   userInitials = "JD",
 }: DesktopTopBarProps) {
+  const cartCountFromAtom = useAtomValue(cartItemCountAtom);
+  const badge = cartCount ?? cartCountFromAtom;
   return (
     <header className={styles.root}>
       <div className={styles.inner}>
@@ -43,7 +49,7 @@ export function DesktopTopBar({
         </label>
 
         <div className={styles.actions}>
-          <IconButton label="Cart" badge={cartCount}>
+          <IconButton label="Cart" badge={badge}>
             <CartIcon />
           </IconButton>
           <button

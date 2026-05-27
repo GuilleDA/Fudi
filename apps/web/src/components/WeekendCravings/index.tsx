@@ -15,6 +15,7 @@ type Restaurant = {
   emoji?: string;
   rating?: number;
   discountBadge?: { src: StaticImageData; alt: string };
+  href?: string;
 };
 
 type WeekendCravingsProps = {
@@ -33,6 +34,7 @@ const DEFAULT_ITEMS: Restaurant[] = [
     imageAlt: "KFC bucket with chicken",
     rating: 4.5,
     discountBadge: { src: DiscountBadge50, alt: "50% Off" },
+    href: "/restaurant/kfc",
   },
   {
     id: "dashi-sushi",
@@ -42,6 +44,16 @@ const DEFAULT_ITEMS: Restaurant[] = [
     image: DashiSushiImage,
     imageAlt: "Assorted sushi pieces",
     rating: 4.7,
+    href: "/restaurant/dashi-sushi",
+  },
+  {
+    id: "vicio",
+    name: "Vicio",
+    time: "30/40 min",
+    price: "$10.50",
+    emoji: "🍔",
+    rating: 4.5,
+    href: "/restaurant/vicio",
   },
   {
     id: "burger-bros",
@@ -118,6 +130,7 @@ export function WeekendCravings({
               emoji={item.emoji}
               rating={item.rating}
               discountBadge={item.discountBadge}
+              href={item.href}
             />
           </li>
         ))}
