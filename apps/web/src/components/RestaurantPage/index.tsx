@@ -4,7 +4,12 @@ import Image, { type StaticImageData } from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useAtomValue } from "jotai";
-import { cartItemCountAtom } from "../../atoms/cart";
+import {
+  cartItemCountAtom,
+  cartProductsSubtotalAtom,
+  formatCurrency,
+  parseDeliveryFee,
+} from "../../atoms/cart";
 import {
   CartIcon,
   ChevronLeftIcon,
@@ -28,6 +33,7 @@ export type Restaurant = {
   name: string;
   image?: StaticImageData;
   imageAlt?: string;
+  emoji?: string;
   logo?: StaticImageData;
   logoLetter?: string;
   logoBackground?: string;
@@ -35,6 +41,8 @@ export type Restaurant = {
   reviewsCount: number;
   deliveryTime: string;
   deliveryPrice: string;
+  tags: string[];
+  hasDiscount?: boolean;
   categories: RestaurantCategory[];
 };
 
@@ -51,6 +59,11 @@ export function RestaurantPage({
   backHref = "/",
 }: RestaurantPageProps) {
   const cartCount = useAtomValue(cartItemCountAtom);
+  const cartSubtotal = useAtomValue(cartProductsSubtotalAtom);
+  const deliveryFee = useMemo(
+    () => parseDeliveryFee(restaurant.deliveryPrice),
+    [restaurant.deliveryPrice],
+  );
 
   const offerProducts = useMemo(
     () =>
@@ -141,7 +154,11 @@ export function RestaurantPage({
             priority
           />
         ) : (
-          <div className={styles.heroFallback} aria-hidden />
+          <div className={styles.heroFallback} aria-hidden>
+            {restaurant.emoji && (
+              <span className={styles.heroEmoji}>{restaurant.emoji}</span>
+            )}
+          </div>
         )}
         <div className={styles.heroOverlay} aria-hidden />
 
@@ -161,8 +178,8 @@ export function RestaurantPage({
             >
               <SearchIcon className={styles.heroIcon} aria-hidden />
             </button>
-            <button
-              type="button"
+            <Link
+              href="/cart"
               aria-label="Cart"
               className={styles.heroButton}
             >
@@ -170,7 +187,7 @@ export function RestaurantPage({
               {cartCount > 0 && (
                 <span className={styles.cartBadge}>{cartCount}</span>
               )}
-            </button>
+            </Link>
           </div>
         </div>
 
@@ -210,6 +227,21 @@ export function RestaurantPage({
         </div>
 
         <h1 className={styles.name}>{restaurant.name}</h1>
+
+        {restaurant.tags.length > 0 && (
+          <ul className={styles.tags}>
+            {restaurant.tags.map((tag) => (
+              <li key={tag}>
+                <Link
+                  href={`/search?category=${encodeURIComponent(tag)}`}
+                  className={styles.tag}
+                >
+                  {tag}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
 
         <p className={styles.rating}>
           <StarIcon className={styles.ratingIcon} aria-hidden />
@@ -263,6 +295,11 @@ export function RestaurantPage({
                   product={product}
                   restaurantId={restaurant.id}
                   restaurantName={restaurant.name}
+                  restaurantLogoLetter={restaurant.logoLetter}
+                  restaurantLogoBackground={restaurant.logoBackground}
+                  restaurantDeliveryTime={restaurant.deliveryTime}
+                  restaurantDeliveryFee={deliveryFee}
+                  restaurantDeliveryLabel={restaurant.deliveryPrice}
                 />
               ))}
             </div>
@@ -286,14 +323,39 @@ export function RestaurantPage({
                   product={product}
                   restaurantId={restaurant.id}
                   restaurantName={restaurant.name}
+                  restaurantLogoLetter={restaurant.logoLetter}
+                  restaurantLogoBackground={restaurant.logoBackground}
+                  restaurantDeliveryTime={restaurant.deliveryTime}
+                  restaurantDeliveryFee={deliveryFee}
+                  restaurantDeliveryLabel={restaurant.deliveryPrice}
                 />
               ))}
             </div>
           </section>
         ))}
 
-        <div className={styles.bottomSafe} />
+        <div
+          className={cx(
+            styles.bottomSafe,
+            cartCount > 0 && styles.bottomSafeWithCart,
+          )}
+        />
       </div>
+
+      {cartCount > 0 && (
+        <div className={styles.cartBarWrap}>
+          <Link href="/cart" className={styles.cartBar} aria-label="Go to cart">
+            <span className={styles.cartBarCount}>
+              <CartIcon className={styles.cartBarIcon} aria-hidden />
+              {cartCount}
+            </span>
+            <span className={styles.cartBarLabel}>Go to cart</span>
+            <strong className={styles.cartBarTotal}>
+              {formatCurrency(cartSubtotal)}
+            </strong>
+          </Link>
+        </div>
+      )}
     </main>
   );
 }

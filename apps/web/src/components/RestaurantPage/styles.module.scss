@@ -26,9 +26,18 @@
 }
 
 .heroFallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   height: 100%;
   background: linear-gradient(135deg, v.$red-600, #7a0c0c);
+}
+
+.heroEmoji {
+  font-size: 5rem;
+  line-height: 1;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.25));
 }
 
 .heroOverlay {
@@ -203,6 +212,32 @@
   color: v.$neutral-500;
 }
 
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.6rem;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.3rem 0.7rem;
+  border-radius: v.$radius-full;
+  background: v.$neutral-100;
+  color: v.$neutral-700;
+  font-size: 12px;
+  font-weight: 600;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+
+  &:hover {
+    background: v.$neutral-200;
+    color: v.$neutral-900;
+  }
+}
+
 .tabs {
   position: sticky;
   top: 0;
@@ -304,4 +339,86 @@
 .bottomSafe {
   height: 2.5rem;
   @include m.safe-bottom;
+}
+
+.bottomSafeWithCart {
+  height: 6.5rem;
+}
+
+.cartBarWrap {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem 1.25rem 1.25rem;
+  background: linear-gradient(
+    to top,
+    rgba(242, 242, 242, 0.95) 60%,
+    rgba(242, 242, 242, 0)
+  );
+  z-index: 20;
+  @include m.safe-bottom;
+
+  @include m.lg {
+    padding: 1rem 2rem 1.5rem;
+    background: linear-gradient(
+      to top,
+      rgba(242, 242, 242, 0.92) 60%,
+      rgba(242, 242, 242, 0)
+    );
+  }
+}
+
+.cartBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 32rem;
+  margin: 0 auto;
+  padding: 0.85rem 1.1rem;
+  border-radius: v.$radius-full;
+  background: v.$neutral-900;
+  color: v.$white;
+  font-size: 15px;
+  font-weight: 700;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+  transition:
+    background 0.15s ease,
+    transform 0.15s ease;
+
+  &:hover {
+    background: v.$neutral-800;
+  }
+
+  &:active {
+    transform: scale(0.99);
+  }
+}
+
+.cartBarCount {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: v.$radius-full;
+  background: rgba(255, 255, 255, 0.12);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.cartBarIcon {
+  height: 16px;
+  width: 16px;
+}
+
+.cartBarLabel {
+  flex: 1;
+  text-align: center;
+}
+
+.cartBarTotal {
+  font-size: 15px;
+  font-weight: 800;
 }

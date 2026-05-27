@@ -1,39 +1,18 @@
 "use client";
 
-import Image, { type StaticImageData } from "next/image";
+import Image from "next/image";
+import Link from "next/link";
 import { useRef, useState, type PointerEvent } from "react";
-import CategoryAsian from "../../assets/category_asian.svg";
-import CategoryBurger from "../../assets/category_burger.svg";
-import CategoryDessert from "../../assets/category_dessert.svg";
-import CategoryHealthy from "../../assets/category_healthy.svg";
-import CategoryPizza from "../../assets/category_pizza.svg";
+import { CATEGORIES, type CategoryItem } from "../../lib/categories";
 import styles from "./styles.module.scss";
 
-type Category = {
-  label: string;
-  icon?: StaticImageData;
-  emoji?: string;
-};
-
 type CategoriesProps = {
-  items?: Category[];
+  items?: CategoryItem[];
   heading?: string;
 };
 
-const DEFAULT_ITEMS: Category[] = [
-  { label: "Asian", icon: CategoryAsian },
-  { label: "Pizza", icon: CategoryPizza },
-  { label: "Burgers", icon: CategoryBurger },
-  { label: "Healthy", icon: CategoryHealthy },
-  { label: "Desserts", icon: CategoryDessert },
-  { label: "Pasta", emoji: "🍝" },
-  { label: "Sushi", emoji: "🍣" },
-  { label: "Drinks", emoji: "🥤" },
-  { label: "Coffee", emoji: "☕" },
-];
-
 export function Categories({
-  items = DEFAULT_ITEMS,
+  items = CATEGORIES,
   heading = "Categories",
 }: CategoriesProps) {
   const listRef = useRef<HTMLUListElement>(null);
@@ -105,7 +84,11 @@ export function Categories({
       >
         {items.map((c) => (
           <li key={c.label} className={styles.item}>
-            <button type="button" className={styles.button}>
+            <Link
+              href={`/search?category=${encodeURIComponent(c.label)}`}
+              className={styles.button}
+              draggable={false}
+            >
               {c.icon ? (
                 <Image
                   src={c.icon}
@@ -119,7 +102,7 @@ export function Categories({
                 </span>
               )}
               <span className={styles.label}>{c.label}</span>
-            </button>
+            </Link>
           </li>
         ))}
       </ul>

@@ -25,7 +25,7 @@ export function AddressBar({ address, label, cartCount }: AddressBarProps) {
           <ChevronDown className={styles.chevron} aria-hidden />
         </button>
       </div>
-      <IconButton label="Cart" badge={badge}>
+      <IconButton label="Cart" badge={badge} href="/cart">
         <CartIcon />
       </IconButton>
     </header>

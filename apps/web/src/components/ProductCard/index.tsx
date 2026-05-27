@@ -28,6 +28,12 @@ type ProductCardProps = {
   product: Product;
   restaurantId: string;
   restaurantName: string;
+  restaurantLogoLetter?: string;
+  restaurantLogoBackground?: string;
+  restaurantLogoColor?: string;
+  restaurantDeliveryTime?: string;
+  restaurantDeliveryFee?: number;
+  restaurantDeliveryLabel?: string;
 };
 
 function formatPrice(value: number) {
@@ -43,6 +49,12 @@ export function ProductCard({
   product,
   restaurantId,
   restaurantName,
+  restaurantLogoLetter,
+  restaurantLogoBackground,
+  restaurantLogoColor,
+  restaurantDeliveryTime,
+  restaurantDeliveryFee,
+  restaurantDeliveryLabel,
 }: ProductCardProps) {
   const items = useAtomValue(cartItemsAtom);
   const addItem = useSetAtom(addItemAtom);
@@ -61,6 +73,12 @@ export function ProductCard({
       productId: product.id,
       restaurantId,
       restaurantName,
+      restaurantLogoLetter,
+      restaurantLogoBackground,
+      restaurantLogoColor,
+      restaurantDeliveryTime,
+      restaurantDeliveryFee,
+      restaurantDeliveryLabel,
       name: product.name,
       price: product.price,
       originalPrice: product.originalPrice,

@@ -7,6 +7,12 @@ export type CartItem = {
   productId: string;
   restaurantId: string;
   restaurantName: string;
+  restaurantLogoLetter?: string;
+  restaurantLogoBackground?: string;
+  restaurantLogoColor?: string;
+  restaurantDeliveryTime?: string;
+  restaurantDeliveryFee?: number;
+  restaurantDeliveryLabel?: string;
   name: string;
   price: number;
   originalPrice?: number;
@@ -48,18 +54,35 @@ export const cartItemCountAtom = atom((get) =>
   get(cartItemsAtom).reduce((acc, item) => acc + item.quantity, 0),
 );
 
-export const cartTotalAtom = atom((get) =>
+export const cartProductsSubtotalAtom = atom((get) =>
   get(cartItemsAtom).reduce(
     (acc, item) => acc + item.quantity * item.price,
     0,
   ),
 );
 
-export const cartByRestaurantAtom = atom((get) => {
-  const groups = new Map<
-    string,
-    { restaurantId: string; restaurantName: string; items: CartItem[] }
-  >();
+export const cartProductsOriginalAtom = atom((get) =>
+  get(cartItemsAtom).reduce(
+    (acc, item) =>
+      acc + item.quantity * (item.originalPrice ?? item.price),
+    0,
+  ),
+);
+
+export type CartRestaurantGroup = {
+  restaurantId: string;
+  restaurantName: string;
+  restaurantLogoLetter?: string;
+  restaurantLogoBackground?: string;
+  restaurantLogoColor?: string;
+  restaurantDeliveryTime?: string;
+  restaurantDeliveryFee?: number;
+  restaurantDeliveryLabel?: string;
+  items: CartItem[];
+};
+
+export const cartByRestaurantAtom = atom<CartRestaurantGroup[]>((get) => {
+  const groups = new Map<string, CartRestaurantGroup>();
 
   for (const item of get(cartItemsAtom)) {
     const group = groups.get(item.restaurantId);
@@ -69,6 +92,12 @@ export const cartByRestaurantAtom = atom((get) => {
       groups.set(item.restaurantId, {
         restaurantId: item.restaurantId,
         restaurantName: item.restaurantName,
+        restaurantLogoLetter: item.restaurantLogoLetter,
+        restaurantLogoBackground: item.restaurantLogoBackground,
+        restaurantLogoColor: item.restaurantLogoColor,
+        restaurantDeliveryTime: item.restaurantDeliveryTime,
+        restaurantDeliveryFee: item.restaurantDeliveryFee,
+        restaurantDeliveryLabel: item.restaurantDeliveryLabel,
         items: [item],
       });
     }
@@ -145,16 +174,19 @@ export const removeItemAtom = atom(
   },
 );
 
+export const removeRestaurantAtom = atom(
+  null,
+  (get, set, restaurantId: string) => {
+    const items = get(storedCartAtom).items;
+    set(storedCartAtom, {
+      items: items.filter((item) => item.restaurantId !== restaurantId),
+    });
+  },
+);
+
 export const clearCartAtom = atom(null, (_get, set) => {
   set(storedCartAtom, { items: [] });
 });
-
-export function useCartItem(
-  restaurantId: string,
-  productId: string,
-): { id: string } {
-  return { id: buildId(restaurantId, productId) };
-}
 
 export function selectCartItem(
   items: CartItem[],
@@ -163,4 +195,22 @@ export function selectCartItem(
 ): CartItem | undefined {
   const id = buildId(restaurantId, productId);
   return items.find((item) => item.id === id);
+}
+
+export function parseDeliveryFee(value?: string): number {
+  if (!value) return 0;
+  const normalized = value.trim().toLowerCase();
+  if (normalized === "free" || normalized === "") return 0;
+  const numeric = parseFloat(normalized.replace(/[^0-9.\-]/g, ""));
+  return Number.isFinite(numeric) ? numeric : 0;
+}
+
+export function formatCurrency(value: number): string {
+  if (value === 0) return "Free";
+  return value.toLocaleString("en-US", {
+    style: "currency",
+    currency: "USD",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
 }

@@ -49,7 +49,7 @@ export function DesktopTopBar({
         </label>
 
         <div className={styles.actions}>
-          <IconButton label="Cart" badge={badge}>
+          <IconButton label="Cart" badge={badge} href="/cart">
             <CartIcon />
           </IconButton>
           <button
