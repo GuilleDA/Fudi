@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import LogoIcon from "../../../public/logo.png";
+import LogoIcon from "../../../public/icon.svg";
 import styles from "./styles.module.scss";
 
 type LogoProps = {
@@ -14,8 +14,8 @@ export function Logo({ size = "md", href = "/" }: LogoProps) {
       <Image
         src={LogoIcon}
         alt="Fudi"
-        width={320}
-        height={213}
+        width={156}
+        height={100}
         priority
         className={`${styles.image} ${styles[size]}`}
       />

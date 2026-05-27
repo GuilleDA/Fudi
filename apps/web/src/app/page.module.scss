@@ -25,7 +25,8 @@
 
   @include m.lg {
     max-width: none;
-    flex: 1;
+    flex: 1 1 0;
+    min-width: 0;
     margin: 0;
   }
 }

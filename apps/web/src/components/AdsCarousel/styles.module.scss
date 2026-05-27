@@ -37,3 +37,23 @@
     overflow: visible;
   }
 }
+
+.card {
+  width: 85%;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: v.$radius-2xl;
+  scroll-snap-align: start;
+
+  @include m.lg {
+    width: auto;
+    flex-shrink: 1;
+  }
+}
+
+.image {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}

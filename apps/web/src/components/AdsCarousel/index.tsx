@@ -1,16 +1,13 @@
-import { AdCard, type AdTone } from "../AdCard";
+import Image, { type StaticImageData } from "next/image";
+import BrazilianFlavourOffer from "../../assets/offer_brazilianFlavour.webp";
+import KfcOffer from "../../assets/offer_kfc.jpg";
+import PapaJohnsOffer from "../../assets/offer_papajohns.jpg";
 import styles from "./styles.module.scss";
 
 type Ad = {
   id: string;
-  tone: AdTone;
-  eyebrow: string;
-  eyebrowSmall?: string;
-  title: string;
-  titleAccent: string;
-  subtitle: string;
-  brand: string;
-  emoji: string;
+  image: StaticImageData;
+  alt: string;
 };
 
 type AdsCarouselProps = {
@@ -21,34 +18,18 @@ type AdsCarouselProps = {
 const DEFAULT_ADS: Ad[] = [
   {
     id: "papajohns",
-    tone: "emerald",
-    eyebrow: "Better Ingredients.",
-    eyebrowSmall: "Better Pizza.",
-    title: "BETTER",
-    titleAccent: "GET YOU",
-    subtitle: "SOME",
-    brand: "PAPA JOHNS",
-    emoji: "🍕",
+    image: PapaJohnsOffer,
+    alt: "Papa Johns Better Ingredients Better Pizza offer",
   },
   {
-    id: "sushi",
-    tone: "rose",
-    eyebrow: "Sushi Wednesdays",
-    title: "50% OFF",
-    titleAccent: "ALL ROLLS",
-    subtitle: "EVERY WED",
-    brand: "SUSHI CLUB",
-    emoji: "🍣",
+    id: "kfc",
+    image: KfcOffer,
+    alt: "KFC Hot and Spicy offer",
   },
   {
-    id: "welcome",
-    tone: "amber",
-    eyebrow: "New on Fudi",
-    title: "FREE",
-    titleAccent: "DELIVERY",
-    subtitle: "FIRST ORDER",
-    brand: "WELCOME",
-    emoji: "🛵",
+    id: "brazilian-flavour",
+    image: BrazilianFlavourOffer,
+    alt: "Brazilian Flavour offer",
   },
 ];
 
@@ -60,8 +41,15 @@ export function AdsCarousel({
     <section className={styles.root}>
       <h2 className={styles.heading}>{heading}</h2>
       <div className={styles.list}>
-        {ads.map((ad) => (
-          <AdCard key={ad.id} {...ad} />
+        {ads.map((ad, index) => (
+          <article key={ad.id} className={styles.card}>
+            <Image
+              src={ad.image}
+              alt={ad.alt}
+              className={styles.image}
+              priority={index === 0}
+            />
+          </article>
         ))}
       </div>
     </section>
