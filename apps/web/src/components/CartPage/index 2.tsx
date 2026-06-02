@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { useAtomValue, useSetAtom } from "jotai";
 import {
@@ -14,7 +13,6 @@ import {
   type CartItem,
   type CartRestaurantGroup,
 } from "../../atoms/cart";
-import { placeOrderAtom } from "../../atoms/orders";
 import {
   CartIcon,
   ChevronLeftIcon,
@@ -30,12 +28,10 @@ type CartPageProps = {
 };
 
 export function CartPage({ backHref = "/" }: CartPageProps) {
-  const router = useRouter();
   const groups = useAtomValue(cartByRestaurantAtom);
   const clearCart = useSetAtom(clearCartAtom);
   const removeRestaurant = useSetAtom(removeRestaurantAtom);
   const setQuantity = useSetAtom(setItemQuantityAtom);
-  const placeOrder = useSetAtom(placeOrderAtom);
 
   const [excluded, setExcluded] = useState<Record<string, boolean>>({});
 
@@ -43,19 +39,6 @@ export function CartPage({ backHref = "/" }: CartPageProps) {
     () => groups.filter((group) => !excluded[group.restaurantId]),
     [groups, excluded],
   );
-
-  function handleCheckout() {
-    if (includedGroups.length === 0) return;
-
-    placeOrder(includedGroups);
-
-    for (const group of includedGroups) {
-      removeRestaurant(group.restaurantId);
-    }
-
-    setExcluded({});
-    router.push("/order");
-  }
 
   const totals = useMemo(() => {
     const includedItems = includedGroups.flatMap((group) => group.items);
@@ -201,7 +184,6 @@ export function CartPage({ backHref = "/" }: CartPageProps) {
                 <button
                   type="button"
                   className={styles.checkout}
-                  onClick={handleCheckout}
                   disabled={totals.productsCount === 0}
                 >
                   <span>Checkout</span>

@@ -2,10 +2,9 @@
 @use "../../styles/mixins" as m;
 
 .root {
-  padding-bottom: 1rem;
-
+  padding-top: 1.5rem;
   @include m.lg {
-    padding-bottom: 2rem;
+    padding-top: 1.5rem;
   }
 }
 

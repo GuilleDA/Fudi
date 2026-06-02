@@ -240,6 +240,38 @@ export function ChevronLeftIcon(props: IconProps) {
   );
 }
 
+export function HeadphonesIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" {...props}>
+      <path
+        d="M4 14v-2a8 8 0 0116 0v2"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M4 14v3a2 2 0 002 2h1a1 1 0 001-1v-5a1 1 0 00-1-1H6a2 2 0 00-2 2zm16 0v3a2 2 0 01-2 2h-1a1 1 0 01-1-1v-5a1 1 0 011-1h1a2 2 0 012 2z"
+        strokeWidth="1.8"
+        strokeLinejoin="round"
+        fill="currentColor"
+        fillOpacity="0.05"
+      />
+    </svg>
+  );
+}
+
+export function CloseIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" {...props}>
+      <path
+        d="M6 6l12 12M18 6L6 18"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
 export function HelpIcon(props: IconProps) {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" {...props}>
